@@ -1,17 +1,19 @@
 from fastapi import Depends, HTTPException, status
-
-from app.utils import AppModel
+from pydantic import BaseModel
 
 from ..service import Service, get_service
 from . import router
 
 
-class RegisterUserRequest(AppModel):
+class RegisterUserRequest(BaseModel):
     email: str
     password: str
+    phone: str
+    name: str
+    city: str
 
 
-class RegisterUserResponse(AppModel):
+class RegisterUserResponse(BaseModel):
     email: str
 
 
@@ -27,7 +29,6 @@ def register_user(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email is already taken.",
         )
-
     svc.repository.create_user(input.dict())
 
     return RegisterUserResponse(email=input.email)
