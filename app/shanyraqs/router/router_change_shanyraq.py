@@ -13,6 +13,7 @@ class PatchShanyraqsResponseById(BaseModel):
     area: str
     rooms_count: str
     description: str
+    user_id: str
 
 
 @router.patch(

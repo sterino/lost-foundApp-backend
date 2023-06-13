@@ -9,11 +9,6 @@ def delete_shanyraq_by_user_id(
     id: str,
     svc: Service = Depends(get_service),
 ) -> dict[str, str]:
-    shanyraq = svc.repository.delete_shanyraq_by_id(id)
-
-    print(shanyraq)
-
-    if shanyraq is False:
-        return Response(status_code=404)
+    svc.repository.delete_shanyraq_by_id(id)
 
     return Response(status_code=200)

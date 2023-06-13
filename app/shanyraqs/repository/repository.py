@@ -51,15 +51,7 @@ class ShanyraqRepository:
             },
         )
 
-    def delete_shanyraq_by_id(self, id: str) -> bool:
-        self.database["shanyraks"].find_one(
-            {
-                "_id": ObjectId(id),
-            }
-        )
-
-        result = self.database["shanyraks"].delete_one(
+    def delete_shanyraq_by_id(self, id: str):
+        self.database["shanyraq"].delete_one(
             filter={"_id": ObjectId(id)},
         )
-
-        return result.deleted_count == 1
