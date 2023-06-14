@@ -13,6 +13,19 @@ services:
   #     - "8000:8000"
   #   depends_on:
   #     - mongodb
+  app:
+  build:
+    context: .
+    dockerfile: ./deploy/dockerfiles/Dockerfile
+  environment:
+    - MONGOHOST=mongodb
+  env_file: .env # <--------- Добавить эту линию к сервису `app`
+  volumes:
+    - ./:/code
+  ports:
+    - "8000:8000"
+  depends_on:
+    - mongodb
 
   mongodb:
     image: mongo:4.4.6-bionic

@@ -4,6 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 from app.auth.router import router as auth_router
 from app.config import client, env, fastapi_config
 from app.shanyraqs.router import router as shanyraqs_router
+
 uri = "mongodb+srv://Sterino:<password>@cluster0.lnggmlh.mongodb.net/?retryWrites=true&w=majority"
 
 app = FastAPI(**fastapi_config)

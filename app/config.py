@@ -9,12 +9,11 @@ class Config(BaseSettings):
     CORS_HEADERS: list[str] = ["*"]
     CORS_METHODS: list[str] = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 
-    MONGOHOST: str = "localhost"
+    MONGOHOST: str = "cluster0"
     MONGOPORT: str = "27017"
-    MONGOUSER: str = "root"
+    MONGOUSER: str = "Sterino"
     MONGOPASSWORD: str = "password"
     MONGODATABASE: str = "fastapi"
-    MONGO_URL: str = ""
 
 
 # environmental variables
@@ -25,14 +24,10 @@ fastapi_config: dict[str, Any] = {
     "title": "API",
 }
 
-mongo_url = (
+# MongoDB connection
+client = MongoClient(
     f"mongodb://{env.MONGOUSER}:{env.MONGOPASSWORD}@{env.MONGOHOST}:{env.MONGOPORT}/"
 )
-if env.MONGO_URL:
-    mongo_url = env.MONGO_URL
-
-# MongoDB connection
-client = MongoClient(mongo_url)
 
 # MongoDB database
 database = client[env.MONGODATABASE]
