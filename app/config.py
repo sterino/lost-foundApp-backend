@@ -3,6 +3,8 @@ from typing import Any
 from pydantic import BaseSettings
 from pymongo import MongoClient
 
+uri = "mongodb+srv://Sterino:<password>@cluster0.lnggmlh.mongodb.net/?retryWrites=true&w=majority"
+
 
 class Config(BaseSettings):
     CORS_ORIGINS: list[str] = ["*"]
