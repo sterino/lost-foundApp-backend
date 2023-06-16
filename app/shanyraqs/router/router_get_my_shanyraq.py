@@ -19,6 +19,8 @@ class GetMyShanyraqRequest(AppModel):
     area: str
     rooms_count: str
     description: str
+    media: List[str] = []
+    comment: List[Any] = []
 
 
 class GetMyShanyraqResponse(AppModel):
