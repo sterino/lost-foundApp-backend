@@ -5,41 +5,39 @@ from bson.objectid import ObjectId
 from pymongo.database import Database
 
 
-class ShanyraqRepository:
+class AdsRepository:
     def __init__(self, database: Database):
         self.database = database
 
-    def create_shanyraq(self, input: dict):
+    def create_ad(self, input: dict):
         payload = {
-            "type": input["type"],
-            "price": input["price"],
-            "address": input["address"],
-            "area": input["area"],
-            "rooms_count": input["rooms_count"],
+            "title": input["title"],
+            "type": input["type"],            
             "description": input["description"],
             "user_id": ObjectId(input["user_id"]),
+            "category": input["category"],
             "media": [],
             "comment": [],
             "created_at": datetime.utcnow(),
         }
 
-        self.database["shanyraq"].insert_one(payload)
+        self.database["ads"].insert_one(payload)
 
-    def get_shanyraq_by_user_id(self, user_id: str) -> List[dict]:
-        shanyraqs = self.database["shanyraq"].find(
+    def get_ad_by_user_id(self, user_id: str) -> List[dict]:
+        ads = self.database["ads"].find(
             {
                 "user_id": ObjectId(user_id),
             }
         )
         result = []
 
-        for shanyraq in shanyraqs:
-            result.append(shanyraq)
+        for ad in ads:
+            result.append(ad)
 
         return result
 
-    def get_shanyraq_id(self, id: str):
-        result = self.database["shanyraq"].find_one(
+    def get_ad_id(self, id: str):
+        result = self.database["ads"].find_one(
             {
                 "_id": ObjectId(id),
             }
@@ -47,34 +45,31 @@ class ShanyraqRepository:
         return result
 
     def update_shanyraq_by_id(self, id: str, data: dict):
-        self.database["shanyraq"].update_one(
+        self.database["ads"].update_one(
             filter={"_id": ObjectId(id)},
             update={
                 "$set": {
-                    "type": data["type"],
-                    "price": data["price"],
-                    "address": data["address"],
-                    "area": data["area"],
-                    "rooms_count": data["rooms_count"],
-                    "description": data["description"],
+                    "title": input["title"],
+                    "description": input["description"],
+                    "category": input["category"],
                 }
             },
         )
 
-    def delete_shanyraq_by_id(self, id: str):
-        self.database["shanyraq"].delete_one(
+    def delete_ad_by_id(self, id: str):
+        self.database["ads"].delete_one(
             filter={"_id": ObjectId(id)},
         )
 
-    def add_shanyraq_media(self, id: str, url: str):
-        sh = self.database["shanyraq"].find_one(
+    def add_ads_media(self, id: str, url: str):
+        sh = self.database["ads"].find_one(
             {
                 "_id": ObjectId(id),
             }
         )
         if sh is None:
             return None
-        result = self.database["shanyraq"].update_one(
+        result = self.database["ads"].update_one(
             filter={"_id": ObjectId(id)},
             update={
                 "$push": {
@@ -84,15 +79,15 @@ class ShanyraqRepository:
         )
         return result
 
-    def delete_shanyraq_media(self, id: str, url: str):
-        sh = self.database["shanyraq"].find_one(
+    def delete_ads_media(self, id: str, url: str):
+        sh = self.database["ads"].find_one(
             {
                 "_id": ObjectId(id),
             }
         )
         if sh is None:
             return None
-        result = self.database["shanyraq"].update_one(
+        result = self.database["ads"].update_one(
             filter={"_id": ObjectId(id)},
             update={
                 "$pull": {
@@ -102,8 +97,8 @@ class ShanyraqRepository:
         )
         return result
 
-    def create_shanyraq_comment(self, user_id: str, id: str, comment: str):
-        sh = self.database["shanyraq"].find_one(
+    def create_ads_comment(self, user_id: str, id: str, comment: str):
+        sh = self.database["ads"].find_one(
             {
                 "_id": ObjectId(id),
             }
@@ -116,7 +111,7 @@ class ShanyraqRepository:
             "person_id": ObjectId(user_id),
             "created_at": datetime.utcnow(),
         }
-        result = self.database["shanyraq"].update_one(
+        result = self.database["ads"].update_one(
             filter={"_id": ObjectId(id)},
             update={
                 "$push": {
@@ -126,8 +121,8 @@ class ShanyraqRepository:
         )
         return result
 
-    def get_shanyraq_comments(self, id: str):
-        sh = self.database["shanyraq"].find_one(
+    def get_ads_comments(self, id: str):
+        sh = self.database["ads"].find_one(
             {
                 "_id": ObjectId(id),
             }
@@ -140,7 +135,7 @@ class ShanyraqRepository:
         return sh["comment"]
 
     def delete_comment(self, id: str, comment_id: str, user_id: str):
-        shanyrak = self.database["shanyraks"].find_one(
+        shanyrak = self.database["ads"].find_one(
             {
                 "_id": ObjectId(id),
             }
@@ -152,7 +147,7 @@ class ShanyraqRepository:
         if shanyrak["comments"] is None:
             return None
 
-        result = self.database["shanyraks"].update_one(
+        result = self.database["ads"].update_one(
             filter={"_id": ObjectId(id)},
             update={
                 "$pull": {
@@ -167,7 +162,7 @@ class ShanyraqRepository:
         return result
 
     def update_comment(self, id: str, comment_id: str, user_id: str, content: str):
-        sh = self.database["shanyraq"].find_one(
+        sh = self.database["ads"].find_one(
             {
                 "_id": ObjectId(id),
             }
@@ -179,7 +174,7 @@ class ShanyraqRepository:
         if sh["comment"] is None:
             return None
 
-        result = self.database["shanyraq"].update_one(
+        result = self.database["ads"].update_one(
             filter={
                 "_id": ObjectId(id),
                 "comment.id": ObjectId(comment_id),
@@ -193,3 +188,33 @@ class ShanyraqRepository:
         )
 
         return result
+    
+    def get_posts(
+        self,
+        limit,
+        offset,
+        type,
+        category,
+
+    ):
+        query = {
+            "$and": [
+                ({"type": type}) if type != None else {},
+                ({"category": category}) if category != None else {},
+            ]
+        }
+        total_count = self.database["ads"].count_documents(query)
+
+        cursor = (
+            self.database["ads"]
+            .find(query)
+            .sort("created_at")
+            .skip(offset)
+            .limit(limit)
+        )
+
+        result = []
+        for item in cursor:
+            result.append(item)
+
+        return {"total": total_count, "ads": result}
