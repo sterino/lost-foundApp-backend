@@ -3,7 +3,7 @@ services:
     name: fastapi
     runtime: docker
     plan: free
-    repo: https://github.com/sterino/tender-backend-ai
+    repo: https://github.com/sterino/lost-foundApp-backend.git
     region: frankfurt
     branch: main
     envVars:
