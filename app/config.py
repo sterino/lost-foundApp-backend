@@ -14,7 +14,6 @@ class Config(BaseSettings):
     MONGOUSER: str = "sterino"
     MONGOPASSWORD: str = "khasenov2003"
     MONGODATABASE: str = "fastapi"
-    MONGO_URL: str = ""
 
 
 # environmental variables
