@@ -1,10 +1,11 @@
-from typing import BinaryIO
 import os
+from typing import BinaryIO
+
 import boto3
-from app.config import env
 
 aws_id = os.getenv("AWS_ACCESS_KEY_ID")
 aws_key = os.getenv("AWS_SECRET_ACCESS_KEY")
+
 
 class S3Service:
     def __init__(self):

@@ -6,11 +6,9 @@ from . import router
 
 
 class RegisterUserRequest(BaseModel):
+    name: str
     email: str
     password: str
-    phone: str
-    name: str
-    city: str
 
 
 class RegisterUserResponse(BaseModel):

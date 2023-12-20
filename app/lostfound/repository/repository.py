@@ -9,12 +9,12 @@ class AdsRepository:
     def __init__(self, database: Database):
         self.database = database
 
-    def create_ad(self, input: dict):
+    def create_ad(self, userId, input: dict):
         payload = {
             "title": input["title"],
-            "type": input["type"],            
+            "type": input["type"],
             "description": input["description"],
-            "user_id": ObjectId(input["user_id"]),
+            "user_id": ObjectId(userId),
             "category": input["category"],
             "media": [],
             "comment": [],
@@ -36,7 +36,7 @@ class AdsRepository:
 
         return result
 
-    def get_ad_id(self, id: str):
+    def get_ad_by_id(self, id: str):
         result = self.database["ads"].find_one(
             {
                 "_id": ObjectId(id),
@@ -188,19 +188,18 @@ class AdsRepository:
         )
 
         return result
-    
-    def get_posts(
+
+    def get_ads(
         self,
         limit,
         offset,
         type,
         category,
-
     ):
         query = {
             "$and": [
-                ({"type": type}) if type != None else {},
-                ({"category": category}) if category != None else {},
+                ({"type": type}) if type is not None else {},
+                ({"category": category}) if category is not None else {},
             ]
         }
         total_count = self.database["ads"].count_documents(query)
@@ -216,5 +215,5 @@ class AdsRepository:
         result = []
         for item in cursor:
             result.append(item)
-
+        
         return {"total": total_count, "ads": result}

@@ -3,7 +3,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.auth.router import router as auth_router
 from app.config import client, env, fastapi_config
-from app.shanyraqs.router import router as shanyraqs_router
+from app.lostfound.router import router as ads_router
 
 uri = "mongodb+srv://Sterino:<password>@cluster0.lnggmlh.mongodb.net/?retryWrites=true&w=majority"
 
@@ -24,4 +24,4 @@ app.add_middleware(
 )
 
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
-app.include_router(shanyraqs_router, prefix="/shanyraqs", tags=["Shanyraqs"])
+app.include_router(ads_router, prefix="/ads", tags=["Ads"])
