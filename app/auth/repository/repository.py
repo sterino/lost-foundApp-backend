@@ -35,7 +35,7 @@ class AuthRepository:
             }
         )
         return user
-    
+
     def update_user(self, user_id: str, data: dict):
         self.database["users"].update_one(
             filter={"_id": ObjectId(user_id)},
@@ -47,5 +47,3 @@ class AuthRepository:
                 }
             },
         )
-
-  
