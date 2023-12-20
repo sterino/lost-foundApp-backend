@@ -6,6 +6,8 @@ services:
     repo: https://github.com/sterino/tender-backend-ai
     region: frankfurt
     branch: main
+    envVars:
+      - key: MONGO_URL
     buildFilter:
       paths:
       - app/**
