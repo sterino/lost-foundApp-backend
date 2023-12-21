@@ -21,7 +21,9 @@ class AdsRepository:
             "created_at": datetime.utcnow(),
         }
 
-        self.database["ads"].insert_one(payload)
+        result = self.database["ads"].insert_one(payload)
+
+        return result.inserted_id
 
     def get_ad_by_user_id(self, user_id: str) -> List[dict]:
         ads = self.database["ads"].find(
@@ -215,5 +217,5 @@ class AdsRepository:
         result = []
         for item in cursor:
             result.append(item)
-        
+
         return {"total": total_count, "ads": result}
