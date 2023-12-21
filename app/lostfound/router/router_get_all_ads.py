@@ -22,7 +22,7 @@ class GetAdsResponse(AppModel):
     ads: List[Ads]
 
 
-@router.get("/", response_model=GetAdsResponse)
+@router.get("/getads", response_model=GetAdsResponse)
 def get_posts(
     type: Optional[int] = None,
     title: Optional[str] = None,
