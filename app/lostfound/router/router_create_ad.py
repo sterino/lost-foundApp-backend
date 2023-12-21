@@ -1,10 +1,8 @@
 from fastapi import Depends
 
-from app.utils import AppModel
-
-
 from app.auth.adapters.jwt_service import JWTData
 from app.auth.router.dependencies import parse_jwt_user_data
+from app.utils import AppModel
 
 from ..service import Service, get_service
 from . import router
@@ -21,7 +19,7 @@ class createPostResponse(AppModel):
     new_post_id: str
 
 
-@router.post("/", status_code=200)
+@router.post("/create", status_code=200)
 def create_post(
     input: createPostRequest,
     jwt_data: JWTData = Depends(parse_jwt_user_data),
