@@ -46,7 +46,7 @@ class AdsRepository:
         )
         return result
 
-    def update_shanyraq_by_id(self, id: str, data: dict):
+    def update_ad_by_id(self, id: str, data: dict):
         self.database["ads"].update_one(
             filter={"_id": ObjectId(id)},
             update={
@@ -101,8 +101,6 @@ class AdsRepository:
 
     def get_ads(
         self,
-        limit,
-        offset,
         type,
         category,
     ):
@@ -118,8 +116,6 @@ class AdsRepository:
             self.database["ads"]
             .find(query)
             .sort("created_at")
-            .skip(offset)
-            .limit(limit)
         )
 
         result = []

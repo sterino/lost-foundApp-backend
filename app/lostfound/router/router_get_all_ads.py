@@ -24,8 +24,6 @@ class GetAdsResponse(AppModel):
 
 @router.get("/", response_model=GetAdsResponse)
 def get_posts(
-    limit: int,
-    offset: int,
     type: Optional[int] = None,
     title: Optional[str] = None,
     description: Optional[str] = None,
@@ -33,8 +31,6 @@ def get_posts(
     svc: Service = Depends(get_service),
 ):
     result = svc.repository.get_ads(
-        limit,
-        offset,
         type,
         category,
     )
