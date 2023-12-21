@@ -14,7 +14,7 @@ class Ads(AppModel):
     type: int
     title: str
     description: str
-    media: Optional[list]
+    media: str
 
 
 class GetAdsResponse(AppModel):

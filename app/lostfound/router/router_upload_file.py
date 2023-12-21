@@ -1,5 +1,3 @@
-from typing import List
-
 from fastapi import Depends, Response, UploadFile
 
 from app.auth.adapters.jwt_service import JWTData
@@ -9,9 +7,9 @@ from ..service import Service, get_service
 from . import router
 
 
-@router.post("/{ad_id}/media", status_code=200)
+@router.post("/{post_id}/media", status_code=200)
 def set_ads_image(
-    files: List[UploadFile],
+    file: UploadFile,
     ad_id: str,
     jwt_data: JWTData = Depends(parse_jwt_user_data),
     svc: Service = Depends(get_service),
@@ -23,12 +21,9 @@ def set_ads_image(
     if str(post["user_id"]) != user_id:
         raise Response(status_code=404)
 
-    result_links = []
-    for file in files:
-        url = svc.s3_service.upload_file(file.file, file.filename)
-        result_links.append(url)
+    url = svc.s3_service.upload_file(file.file, file.filename)
 
-    svc.repository.change_post_image(ad_id, result_links)
+    svc.repository.add_ads_media(ad_id, url)
 
     return 200
 

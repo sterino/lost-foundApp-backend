@@ -7,7 +7,7 @@ from . import router
 
 from .errors import InvalidCredentialsException
 
-from typing import Optional, Any
+from typing import Any
 
 from pydantic import Field
 
@@ -18,7 +18,7 @@ class getPostResponse(AppModel):
     type: int
     title: str
     description: str
-    media: Optional[list]
+    media: str
 
 
 @router.get("/{post_id}", status_code=200, response_model=getPostResponse)

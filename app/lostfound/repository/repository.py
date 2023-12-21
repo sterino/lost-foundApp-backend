@@ -16,7 +16,7 @@ class AdsRepository:
             "description": input["description"],
             "user_id": ObjectId(userId),
             "category": input["category"],
-            "media": [],
+            "media": "",
             "comment": [],
             "created_at": datetime.utcnow(),
         }
@@ -97,98 +97,6 @@ class AdsRepository:
                 }
             },
         )
-        return result
-
-    def create_ads_comment(self, user_id: str, id: str, comment: str):
-        sh = self.database["ads"].find_one(
-            {
-                "_id": ObjectId(id),
-            }
-        )
-        if sh is None:
-            return None
-        payload = {
-            "id": ObjectId(),
-            "content": comment,
-            "person_id": ObjectId(user_id),
-            "created_at": datetime.utcnow(),
-        }
-        result = self.database["ads"].update_one(
-            filter={"_id": ObjectId(id)},
-            update={
-                "$push": {
-                    "comment": payload,
-                }
-            },
-        )
-        return result
-
-    def get_ads_comments(self, id: str):
-        sh = self.database["ads"].find_one(
-            {
-                "_id": ObjectId(id),
-            }
-        )
-        if sh is None:
-            return None
-        if sh["comment"] is None:
-            return None
-
-        return sh["comment"]
-
-    def delete_comment(self, id: str, comment_id: str, user_id: str):
-        shanyrak = self.database["ads"].find_one(
-            {
-                "_id": ObjectId(id),
-            }
-        )
-
-        if shanyrak is None:
-            return None
-
-        if shanyrak["comments"] is None:
-            return None
-
-        result = self.database["ads"].update_one(
-            filter={"_id": ObjectId(id)},
-            update={
-                "$pull": {
-                    "comments": {
-                        "id": ObjectId(comment_id),
-                        "author_id": ObjectId(user_id),
-                    },
-                }
-            },
-        )
-
-        return result
-
-    def update_comment(self, id: str, comment_id: str, user_id: str, content: str):
-        sh = self.database["ads"].find_one(
-            {
-                "_id": ObjectId(id),
-            }
-        )
-
-        if sh is None:
-            return None
-
-        if sh["comment"] is None:
-            return None
-
-        result = self.database["ads"].update_one(
-            filter={
-                "_id": ObjectId(id),
-                "comment.id": ObjectId(comment_id),
-                "comment.author_id": ObjectId(user_id),
-            },
-            update={
-                "$set": {
-                    "comment.$.content": content,
-                }
-            },
-        )
-
         return result
 
     def get_ads(
