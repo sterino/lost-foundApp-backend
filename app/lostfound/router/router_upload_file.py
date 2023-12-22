@@ -18,10 +18,13 @@ def set_ads_image(
     if file.filename is None:
         file.filename = os.path.basename(file.file)
 
-    user_id = jwt_data.user_id
+    # user_id = jwt_data.user_id
 
-    post = svc.repository.get_ad_by_id(ad_id)
-    
+    # post = svc.repository.get_ad_by_id(ad_id)
+
+    # if str(post["user_id"]) != user_id:
+    #     raise Response(status_code=404)
+
     url = svc.s3_service.upload_file(file.file, ad_id, file.filename)
 
     svc.repository.add_ads_media(ad_id, url)
