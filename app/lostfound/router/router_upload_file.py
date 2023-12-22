@@ -7,6 +7,7 @@ from ..service import Service, get_service
 from . import router
 import os
 
+
 @router.post("/{post_id}/media/", status_code=200)
 def set_ads_image(
     file: UploadFile,
@@ -16,6 +17,7 @@ def set_ads_image(
 ):
     if file.filename is None:
         file.filename = os.path.basename(file)
+        
     user_id = jwt_data.user_id
 
     post = svc.repository.get_ad_by_id(ad_id)
