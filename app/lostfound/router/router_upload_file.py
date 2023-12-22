@@ -20,7 +20,7 @@ def set_ads_image(
 
     if str(post["user_id"]) != user_id:
         raise Response(status_code=404)
-    print(f"{file.file} {file.filename}")
+    
     url = svc.s3_service.upload_file(file.file, file.filename)
 
     svc.repository.add_ads_media(ad_id, url)
