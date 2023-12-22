@@ -16,7 +16,7 @@ class AdsRepository:
             "description": input["description"],
             "user_id": ObjectId(userId),
             "category": input["category"],
-            "media": "",
+            "media": [],
             "comment": [],
             "created_at": datetime.utcnow(),
         }
