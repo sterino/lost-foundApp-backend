@@ -16,7 +16,7 @@ class AdsRepository:
             "description": input["description"],
             "user_id": ObjectId(userId),
             "category": input["category"],
-            "media": [],
+            "media": "",
             "comment": [],
             "created_at": datetime.utcnow(),
         }
@@ -74,7 +74,7 @@ class AdsRepository:
         result = self.database["ads"].update_one(
             filter={"_id": ObjectId(id)},
             update={
-                "$push": {
+                "$set": {
                     "media": url,
                 }
             },
@@ -112,11 +112,7 @@ class AdsRepository:
         }
         total_count = self.database["ads"].count_documents(query)
 
-        cursor = (
-            self.database["ads"]
-            .find(query)
-            .sort("created_at")
-        )
+        cursor = self.database["ads"].find(query).sort("created_at")
 
         result = []
         for item in cursor:
