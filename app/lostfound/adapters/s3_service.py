@@ -20,7 +20,8 @@ class S3Service:
         # bucket_location = boto3.client("s3").get_bucket_location(Bucket=bucket)
         object_url = "https://{0}.s3.amazonaws.com/{1}".format(
             # bucket_location["LocationConstraint"],
-            bucket, filekey
+            bucket,
+            filekey,
         )
 
         return object_url
