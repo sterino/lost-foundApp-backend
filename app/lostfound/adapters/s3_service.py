@@ -18,7 +18,7 @@ class S3Service:
         self.s3.upload_fileobj(file, bucket, filekey)
 
         # bucket_location = boto3.client("s3").get_bucket_location(Bucket=bucket)
-        object_url = "https://{0}.s3.amazonaws.com/{1}/{2}".format(
+        object_url = "https://{0}.s3.amazonaws.com/{1}".format(
             # bucket_location["LocationConstraint"],
             bucket, filekey
         )
